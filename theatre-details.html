@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theatre Details | Book My Show</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <section class="theatre-section">
+        
+        <div class="container">
+            <h4>Theatre details</h4>
+            <div class="flex-prop">
+                
+                <div>
+                <h5 id="movie-name"></h5>
+                </div>
+                <div>
+                <h5 id="language"></h5>
+                </div>
+            </div>
+            <div class="flex-prop">
+                <div>
+                    <span id="certif"></span>
+                </div> 
+                <div>
+                    <span id="movie-type"></span>
+                </div>
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+    </section>
+
+    <script src="js/movies.js"></script>
+    <script src="js/theatres.js"></script>
+    <script type="module">
+    // import {theatresData} from "./js/theatres.js";
+    // import {moviesData} from "./js/movies.js";
+
+    const moviesDatas=moviesData;
+    const theatresDatas=theatresData;
+    
+    let urls = window.location;
+    let searchUrl = new URLSearchParams(urls.search);
+    const movieName=searchUrl.get("movie");
+    // const getTheatreParams=searchUrl.get("movie");
+    // console.log(searchUrl.get("movie"));
+    //  console.log(searchUrl.get("theatre"))
+
+    let movieElm=document.getElementById("movie-name");
+    let languageElm=document.getElementById("language");
+    let certifElm=document.getElementById("certif");
+    let movieTypeElm=document.getElementById("movie-type");
+
+    function loadTheatreDetails(){
+          const movie = moviesDatas.find((item) => item.movieName === movieName);
+          movieElm.innerText=movie.movieName;
+          languageElm.innerText=movie.language.join(",");
+          certifElm.innerText=movie.certificate;
+          movieTypeElm.innerText=movie.type;
+    }
+
+    loadTheatreDetails();
+
+    const filterTheatres = theatresDatas.filter((item) => {
+        return  item.movieList.includes("movieName");
+    })
+    
+    const findTheatreByShowTime = [...filterTheatres].map((item)=>{
+
+        let getShows = item.screens.find((sc) => sc.movieName === "movieName");
+        
+        return {
+            theatreId: item.id,
+            theatreName: item.theatreName,
+            location: item.location,
+            showTimes: getShows
+        }
+    })
+    console.log("Movie: ", findMovie)
+    console.log("Theatres By Show Time: ", findTheatreByShowTime)
+</script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theatre Details | Book My Show</title>
+</head>
+<body>
+
+    <section class="theatre-section">
+        <div class="container">
+            <div class="row">
+                <h2>Theatre details</h2>
+                <h3 id="movie-name"></h3>
+                <p id="theatre-list"></p>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/movies.js"></script>
+    <script src="js/theatres.js"></script>
+    <script type="module">
+    // import {theatresData} from "./js/theatres.js";
+    // import {moviesData} from "./js/movies.js";
+
+    const moviesDatas=moviesData;
+    const theatresDatas=theatresData;
+    
+    let urls = window.location;
+    let searchUrl = new URLSearchParams(urls.search);
+    const movieName = searchUrl.get("movie");
+
+    let movieElm=document.getElementById("movie-name");
+    let theatreListElm = document.getElementById("theatre-list");
+
+    function loadTheatreDetails(){
+        // Find the movie object
+        const movie = moviesDatas.find((item) => item.movieName === movieName);
+
+        // Filter theatres showing the specified movie
+        const theatresShowingMovie = theatresDatas.filter((theatre) => {
+            return theatre.movieList.includes(movieName);
+        });
+
+        // Display movie name
+        movieElm.innerText = movie.movieName;
+
+        // Display theatre details
+        theatresShowingMovie.forEach((theatre) => {
+            // const theatreItem = document.createElement("li");
+            // theatreItem.innerText = `Theatre: ${theatresData.theatreName}, Location: ${theatresData.location}`;
+            theatreListElm.innerText-`Theatre:${theatresData.theatreName}, Location: ${theatresData.location}`;
+            theatreListElm.appendChild(theatreItem);
+        });
+    }
+
+    // Call the function to load theatre details
+    loadTheatreDetails();
+</script>
+</body>
+</html> -->
